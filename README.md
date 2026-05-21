@@ -89,9 +89,9 @@ python -m src.train_model
 3. Sistem menghasilkan prediksi tingkat stres dan rekomendasi.
 4. Jika model belum tersedia, aplikasi menggunakan prediksi fallback berbasis skor sederhana.
 
-## Pembagian Tugas Kelompok (Umum)
-- 1 anggota: Pengumpulan dan pembersihan dataset.
-- 1 anggota: Pengembangan model dan preprocessing.
-- 1 anggota: Pengembangan aplikasi Streamlit dan antarmuka.
-- 1 anggota: Dokumentasi, analisis, dan presentasi.
-- 1 anggota: Integrasi akhir, uji aplikasi, dan pengemasan.
+## Anggota Kelompok
+- Najlatika (123140078)
+- Bening Apni Prameswari (123140089)
+- Raditya Alrasyid Nugroho (123140125)
+- Raisya Syifa Saleh (123140169)
+- Muhamad Arif Ardani (123140186)
