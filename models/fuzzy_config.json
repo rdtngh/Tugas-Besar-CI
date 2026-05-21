@@ -1,0 +1,92 @@
+{
+  "type": "Fuzzy Inference System (FIS)",
+  "status": "Baseline - Siap dikembangkan ke Neuro-Fuzzy/ANFIS",
+  "fuzzification": {
+    "anxiety_level": {
+      "range": [
+        0,
+        20
+      ],
+      "sets": [
+        "rendah",
+        "sedang",
+        "tinggi"
+      ],
+      "membership": "Trapezoidal dan Triangular"
+    },
+    "sleep_quality": {
+      "range": [
+        0,
+        5
+      ],
+      "sets": [
+        "buruk",
+        "sedang",
+        "baik"
+      ],
+      "membership": "Trapezoidal dan Triangular"
+    },
+    "study_load": {
+      "range": [
+        0,
+        5
+      ],
+      "sets": [
+        "ringan",
+        "sedang",
+        "berat"
+      ],
+      "membership": "Trapezoidal dan Triangular"
+    },
+    "academic_performance": {
+      "range": [
+        0,
+        5
+      ],
+      "sets": [
+        "rendah",
+        "sedang",
+        "tinggi"
+      ],
+      "membership": "Trapezoidal dan Triangular"
+    },
+    "social_support": {
+      "range": [
+        0,
+        5
+      ],
+      "sets": [
+        "rendah",
+        "sedang",
+        "tinggi"
+      ],
+      "membership": "Trapezoidal dan Triangular"
+    },
+    "future_career_concerns": {
+      "range": [
+        0,
+        5
+      ],
+      "sets": [
+        "rendah",
+        "sedang",
+        "tinggi"
+      ],
+      "membership": "Trapezoidal dan Triangular"
+    }
+  },
+  "rule_base": "14 aturan IF-THEN dengan operator AND (min)",
+  "inference_engine": "Mamdani",
+  "defuzzification": "Maximum membership",
+  "output_classes": [
+    "Rendah",
+    "Sedang",
+    "Tinggi"
+  ],
+  "notes": [
+    "Sistem ini menggunakan Fuzzy Inference System sebagai fondasi Neuro-Fuzzy.",
+    "Pengembangan ANFIS dapat dilakukan dengan menambahkan parameter learning.",
+    "Membership function parameter dapat dioptimalkan menggunakan algoritma genetika atau gradient descent.",
+    "Rule base dapat diperluas dan diadaptasi berdasarkan feedback domain expert."
+  ]
+}
