@@ -88,6 +88,7 @@ def evaluate_fuzzy_model():
     # Handle missing values
     print("\n[2/4] Preprocessing data...")
     try:
+        # PERBAIKAN: Menggunakan median statis atau fallback yang aman dari rule base awal
         X = X.fillna(X.median())
         y_true = map_target_to_label(y_true)
         print(f"  [OK] Missing values handled")
@@ -108,22 +109,29 @@ def evaluate_fuzzy_model():
     # Hitung metrik evaluasi
     print("\n[4/4] Menghitung metrik evaluasi...")
     try:
+        # Target urutan kelas yang konsisten secara skalar ekonomi fuzzy
+        target_labels = ['Rendah', 'Sedang', 'Tinggi']
+        
         # Accuracy
         acc = accuracy_score(y_true, y_pred)
         
         # Precision, Recall, F1
-        precision = precision_score(y_true, y_pred, average='weighted', zero_division=0)
-        recall = recall_score(y_true, y_pred, average='weighted', zero_division=0)
-        f1 = f1_score(y_true, y_pred, average='weighted', zero_division=0)
+        # PERBAIKAN: Menambahkan parameter labels eksplisit agar kalkulasi pembobotan rata-rata linear tidak bergeser
+        precision = precision_score(y_true, y_pred, labels=target_labels, average='weighted', zero_division=0)
+        recall = recall_score(y_true, y_pred, labels=target_labels, average='weighted', zero_division=0)
+        f1 = f1_score(y_true, y_pred, labels=target_labels, average='weighted', zero_division=0)
         
         # Classification Report
+        # PERBAIKAN: Memasang pasangan parameter labels dan target_names secara eksplisit bersesuaian
         class_report = classification_report(
-            y_true, y_pred, zero_division=0,
-            target_names=['Rendah', 'Sedang', 'Tinggi']
+            y_true, y_pred, 
+            labels=target_labels,
+            target_names=target_labels,
+            zero_division=0
         )
         
         # Confusion Matrix
-        conf_matrix = confusion_matrix(y_true, y_pred, labels=['Rendah', 'Sedang', 'Tinggi'])
+        conf_matrix = confusion_matrix(y_true, y_pred, labels=target_labels)
         
         print("  [OK] Metrik evaluasi dihitung")
     
