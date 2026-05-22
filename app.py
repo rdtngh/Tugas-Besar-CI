@@ -9,81 +9,81 @@ from src.recommendations import get_recommendation
 
 st.set_page_config(
     page_title="Sistem Prediksi Tingkat Stres Mahasiswa",
-    page_icon="🧠",
+    page_icon=None,
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# Custom CSS untuk tampilan modern
+# Custom CSS untuk tampilan premium modern (Tanpa Emoticon & Kata-kata Asli)
 custom_css = """
 <style>
-    /* Global styling */
-    :root {
-        --primary-color: #6366f1;
-        --secondary-color: #8b5cf6;
-        --success-color: #10b981;
-        --warning-color: #f59e0b;
-        --danger-color: #ef4444;
-        --dark-bg: #0f172a;
-        --card-bg: #1e293b;
-        --text-primary: #f1f5f9;
-        --text-secondary: #cbd5e1;
-        --border-color: #334155;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    /* Global font overwrite */
+    html, body, [class*="css"], .stApp {
+        font-family: 'Inter', sans-serif !important;
+        background-color: #0b0f19 !important;
+        color: #f8fafc !important;
     }
 
-    /* Background */
-    body {
-        background: linear-gradient(135deg, #0f172a 0%, #1a1f35 100%);
-        color: var(--text-primary);
-    }
-
-    .stApp {
-        background: linear-gradient(135deg, #0f172a 0%, #1a1f35 100%);
-    }
-
-    /* Text styling */
-    h1, h2, h3 {
-        color: var(--text-primary) !important;
-    }
-
-    /* Card styling */
+    /* Card styling - Clean flat design with thin borders */
     .card {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
+        background: #111827;
+        border: 1px solid #1f2937;
+        border-radius: 10px;
         padding: 24px;
-        margin: 12px 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    
+    .card-title {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #f3f4f6;
+        margin-top: 0;
+        margin-bottom: 16px;
     }
 
-    /* Button styling */
+    /* Flat professional button design */
     .stButton > button {
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 12px 32px;
-        font-weight: 600;
-        transition: all 0.3s ease;
+        background: #4f46e5 !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 6px !important;
+        padding: 12px 24px !important;
+        font-size: 0.95rem !important;
+        font-weight: 500 !important;
+        transition: background-color 0.2s ease !important;
         width: 100%;
+        box-shadow: none !important;
     }
 
     .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 12px rgba(99, 102, 241, 0.4);
+        background: #4338ca !important;
+        border: none !important;
     }
 
-    /* Slider styling */
+    /* Slider styling adjustments */
     .stSlider [role="slider"] {
-        background: var(--primary-color);
+        background: #4f46e5;
+    }
+    
+    /* Minimalist metric card overrides */
+    div[data-testid="stMetric"] {
+        background: #111827 !important;
+        border: 1px solid #1f2937 !important;
+        border-radius: 6px !important;
+        padding: 14px !important;
     }
 
-    /* Metric cards */
-    .stMetric {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        padding: 16px;
+    /* Custom classes for badge text */
+    .badge {
+        background: #1f2937;
+        color: #9ca3af;
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        border: 1px solid #374151;
     }
 </style>
 """
@@ -95,7 +95,7 @@ st.markdown(custom_css, unsafe_allow_html=True)
 # ============================================================================
 
 with st.sidebar:
-    st.markdown("### 📋 Informasi Proyek")
+    st.markdown("### Informasi Proyek")
     st.divider()
     
     st.markdown("""
@@ -114,7 +114,7 @@ with st.sidebar:
     
     st.divider()
     
-    st.markdown("### 🔧 Informasi Model")
+    st.markdown("### Informasi Model")
     st.info("""
     **Status Model:**
     Fuzzy Inference System (FIS)
@@ -134,10 +134,9 @@ with st.sidebar:
     - Kekhawatiran Karier
     """)
 
-    
     st.divider()
     
-    st.markdown("### ⚠️ Disclaimer")
+    st.markdown("### Disclaimer")
     st.warning("""
     Sistem ini adalah **alat bantu prediksi awal** dan **BUKAN diagnosis medis**.
     Jika mengalami stress berkelanjutan, konsultasikan dengan profesional kesehatan mental.
@@ -150,15 +149,17 @@ with st.sidebar:
 col_header = st.columns([1])
 with col_header[0]:
     st.markdown("""
-    <div style="text-align: center; padding: 30px 0;">
-        <h1 style="margin: 0; color: #f1f5f9; font-size: 2.5em;">🧠 Sistem Prediksi Tingkat Stres Mahasiswa</h1>
-        <p style="margin: 10px 0; color: #cbd5e1; font-size: 1.1em;">
+    <div style="text-align: left; padding: 20px 0 10px 0;">
+        <h1 style="margin: 0; color: #ffffff; font-size: 2.25em; font-weight: 700; letter-spacing: -0.025em;">
+            Sistem Prediksi Tingkat Stres Mahasiswa
+        </h1>
+        <p style="margin: 8px 0 16px 0; color: #9ca3af; font-size: 1.05em;">
             Prediksi awal tingkat stres berdasarkan faktor psikologis, akademik, sosial, dan gaya hidup
         </p>
-        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
-            <span style="background: #6366f1; color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 600;">Neuro-Fuzzy</span>
-            <span style="background: #8b5cf6; color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 600;">ANFIS</span>
-            <span style="background: #10b981; color: white; padding: 6px 12px; border-radius: 20px; font-size: 0.85em; font-weight: 600;">Student Stress</span>
+        <div style="display: flex; gap: 8px; justify-content: flex-start;">
+            <span class="badge">Neuro-Fuzzy</span>
+            <span class="badge">ANFIS</span>
+            <span class="badge">Student Stress</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -178,14 +179,14 @@ col_input, col_result = st.columns([1.2, 1.3], gap="large")
 with col_input:
     st.markdown("""
     <div class="card">
-        <h2 style="margin: 0 0 20px 0; color: #f1f5f9;">📝 Masukkan Data Mahasiswa</h2>
+        <div class="card-title" style="margin: 0; color: #f1f5f9; font-size: 1.25rem;">Masukkan Data Mahasiswa</div>
     </div>
     """, unsafe_allow_html=True)
     
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     
     # Anxiety Level
-    st.markdown("**1. Tingkat Kecemasan** 😰")
+    st.markdown("**1. Tingkat Kecemasan**")
     anxiety_level = st.slider(
         "Tingkat Kecemasan",
         min_value=0,
@@ -200,7 +201,7 @@ with col_input:
     st.divider()
     
     # Sleep Quality
-    st.markdown("**2. Kualitas Tidur** 😴")
+    st.markdown("**2. Kualitas Tidur**")
     sleep_quality = st.slider(
         "Kualitas Tidur",
         min_value=0,
@@ -215,7 +216,7 @@ with col_input:
     st.divider()
     
     # Study Load
-    st.markdown("**3. Beban Belajar** 📚")
+    st.markdown("**3. Beban Belajar**")
     study_load = st.slider(
         "Beban Belajar",
         min_value=0,
@@ -230,7 +231,7 @@ with col_input:
     st.divider()
     
     # Academic Performance
-    st.markdown("**4. Performa Akademik** 🎓")
+    st.markdown("**4. Performa Akademik**")
     academic_performance = st.slider(
         "Performa Akademik",
         min_value=0,
@@ -245,7 +246,7 @@ with col_input:
     st.divider()
     
     # Social Support
-    st.markdown("**5. Dukungan Sosial** 👥")
+    st.markdown("**5. Dukungan Sosial**")
     social_support = st.slider(
         "Dukungan Sosial",
         min_value=0,
@@ -260,7 +261,7 @@ with col_input:
     st.divider()
     
     # Future Career Concerns
-    st.markdown("**6. Kekhawatiran Karier** 🚀")
+    st.markdown("**6. Kekhawatiran Karier**")
     future_career_concerns = st.slider(
         "Kekhawatiran Karier",
         min_value=0,
@@ -277,7 +278,7 @@ with col_input:
     st.markdown("<br>", unsafe_allow_html=True)
     
     # Prediction Button
-    predict_button = st.button("🔮 Prediksi Sekarang", use_container_width=True)
+    predict_button = st.button("Prediksi Sekarang", use_container_width=True)
 
 # ============================================================================
 # RIGHT COLUMN: RESULTS
@@ -306,26 +307,23 @@ with col_result:
         # Determine styling based on prediction
         if label == "Rendah":
             color = "#10b981"
-            emoji = "✅"
             icon_text = "Status: Baik"
             container_func = st.success
         elif label == "Sedang":
             color = "#f59e0b"
-            emoji = "⚠️"
             icon_text = "Status: Perhatian"
             container_func = st.warning
         else:  # Tinggi
             color = "#ef4444"
-            emoji = "🚨"
             icon_text = "Status: Tinggi"
             container_func = st.error
         
         # Main result card
         st.markdown(f"""
-        <div class="card" style="border-left: 5px solid {color};">
-            <h2 style="text-align: center; color: {color}; margin: 0 0 10px 0;">
-                {emoji} Hasil Prediksi
-            </h2>
+        <div class="card" style="border-top: 4px solid {color};">
+            <div class="card-title" style="color: {color}; text-align: center; margin-bottom: 0; font-size: 1.25rem;">
+                Hasil Prediksi
+            </div>
         </div>
         """, unsafe_allow_html=True)
         
@@ -344,28 +342,28 @@ with col_result:
         import numpy as np
         
         # Buat bar chart untuk class scores
-        fig, ax = plt.subplots(figsize=(8, 4))
+        fig, ax = plt.subplots(figsize=(8, 3.5))
         classes = list(class_scores.keys())
         scores = list(class_scores.values())
         colors = ['#10b981', '#f59e0b', '#ef4444']
         
-        bars = ax.barh(classes, scores, color=colors, alpha=0.7, edgecolor='#334155', linewidth=1.5)
+        bars = ax.barh(classes, scores, color=colors, alpha=0.85, edgecolor='#374151', linewidth=1)
         ax.set_xlim(0, 1)
-        ax.set_xlabel('Firing Strength', color='#cbd5e1', fontsize=10)
-        ax.set_facecolor('#1e293b')
-        fig.patch.set_facecolor('#0f172a')
+        ax.set_xlabel('Firing Strength', color='#9ca3af', fontsize=9)
+        ax.set_facecolor('#111827')
+        fig.patch.set_facecolor('#0b0f19')
         
         # Styling
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
-        ax.spines['left'].set_color('#334155')
-        ax.spines['bottom'].set_color('#334155')
-        ax.tick_params(colors='#cbd5e1')
+        ax.spines['left'].set_color('#1f2937')
+        ax.spines['bottom'].set_color('#1f2937')
+        ax.tick_params(colors='#9ca3af', labelsize=9)
         
         # Add value labels on bars
         for i, (bar, score_val) in enumerate(zip(bars, scores)):
             ax.text(score_val + 0.02, i, f'{score_val:.3f}', 
-                   va='center', color='#cbd5e1', fontsize=10, fontweight='bold')
+                    va='center', color='#ffffff', fontsize=9, fontweight='500')
         
         plt.tight_layout()
         st.pyplot(fig)
@@ -384,9 +382,9 @@ with col_result:
         # ====================================================================
         
         st.markdown(f"""
-        <div class="card" style="border-left: 5px solid {color};">
-            <h3 style="color: {color}; margin: 0 0 15px 0;">💡 Rekomendasi</h3>
-            <p style="color: #cbd5e1; line-height: 1.6; margin: 0;">
+        <div class="card" style="border-left: 4px solid {color}; background: #111827;">
+            <div class="card-title" style="color: {color}; font-size: 1.15rem; margin-bottom: 10px;">Rekomendasi</div>
+            <p style="color: #cbd5e1; line-height: 1.6; margin: 0; font-size: 0.95rem;">
                 {recommendation}
             </p>
         </div>
@@ -398,7 +396,7 @@ with col_result:
         # INPUT DETAIL TABLE
         # ====================================================================
         
-        st.markdown("### 📊 Detail Input Anda")
+        st.markdown("### Detail Input Anda")
         
         detail_df = pd.DataFrame({
             "Faktor": [
@@ -421,15 +419,14 @@ with col_result:
         
         st.dataframe(detail_df, use_container_width=True, hide_index=True)
 
-    
     else:
         # Placeholder when no prediction yet
         st.markdown("""
-        <div class="card" style="text-align: center; padding: 40px 20px;">
-            <h3 style="color: #cbd5e1; margin: 0 0 10px 0;">
-                📋 Hasil Prediksi
-            </h3>
-            <p style="color: #94a3b8; margin: 0;">
+        <div class="card" style="text-align: center; padding: 50px 20px; border-style: dashed; border-color: #374151;">
+            <div style="color: #cbd5e1; font-size: 1.15rem; font-weight: 500; margin-bottom: 8px;">
+                Hasil Prediksi
+            </div>
+            <p style="color: #6b7280; margin: 0; font-size: 0.95rem;">
                 Isi data di sebelah kiri dan klik "Prediksi Sekarang" untuk melihat hasil prediksi tingkat stres Anda.
             </p>
         </div>
@@ -442,32 +439,31 @@ with col_result:
 st.divider()
 
 st.markdown("""
-<div style="text-align: center; margin: 40px 0 20px 0;">
-    <h2 style="color: #f1f5f9;">🔍 Bagaimana Sistem Bekerja?</h2>
+<div style="text-align: center; margin: 30px 0 10px 0;">
+    <h2 style="color: #ffffff; font-size: 1.5em; font-weight: 600;">Bagaimana Sistem Bekerja?</h2>
 </div>
 """, unsafe_allow_html=True)
 
 col1, col2, col3, col4, col5 = st.columns(5, gap="small")
 
 steps = [
-    ("📊\n**Input**", "Data dari 6 fitur mahasiswa"),
-    ("🔀\n**Fuzzifikasi**", "Konversi ke membership fuzzy"),
-    ("⚙️\n**Rule Base**", "Evaluasi 14+ aturan IF-THEN"),
-    ("📈\n**Inferensi**", "Hitung firing strength"),
-    ("🎯\n**Defuzzifikasi**", "Output: Rendah/Sedang/Tinggi"),
+    ("Input", "Data dari 6 fitur mahasiswa"),
+    ("Fuzzifikasi", "Konversi ke membership fuzzy"),
+    ("Rule Base", "Evaluasi 14+ aturan IF-THEN"),
+    ("Inferensi", "Hitung firing strength"),
+    ("Defuzzifikasi", "Output: Rendah/Sedang/Tinggi"),
 ]
 
 for idx, (col, (title, desc)) in enumerate(zip([col1, col2, col3, col4, col5], steps)):
     with col:
         st.markdown(f"""
-        <div class="card" style="text-align: center; min-height: 150px; display: flex; flex-direction: column; justify-content: center;">
-            <div style="font-size: 2em; margin-bottom: 10px;">{title}</div>
-            <p style="font-size: 0.85em; color: #cbd5e1; margin: 0;">
+        <div class="card" style="text-align: center; min-height: 140px; display: flex; flex-direction: column; justify-content: center; padding: 15px;">
+            <div style="font-size: 1.05rem; font-weight: 600; color: #4f46e5; margin-bottom: 6px;">{title}</div>
+            <p style="font-size: 0.85rem; color: #9ca3af; margin: 0; line-height: 1.4;">
                 {desc}
             </p>
         </div>
         """, unsafe_allow_html=True)
-
 
 st.divider()
 
@@ -476,12 +472,12 @@ st.divider()
 # ============================================================================
 
 st.markdown("""
-<div style="text-align: center; color: #64748b; font-size: 0.9em; padding: 20px 0;">
-    <p style="margin: 5px 0;">
-        🎓 Tugas Besar Kecerdasan Komputasional | Sistem Prediksi Tingkat Stres Mahasiswa
+<div style="text-align: center; color: #4b5563; font-size: 0.85rem; padding: 10px 0;">
+    <p style="margin: 4px 0;">
+        Tugas Besar Kecerdasan Komputasional | Sistem Prediksi Tingkat Stres Mahasiswa
     </p>
-    <p style="margin: 5px 0;">
-        ⚠️ Sistem ini hanya alat bantu prediksi awal dan BUKAN diagnosis medis profesional.
+    <p style="margin: 4px 0; color: #374151;">
+        Sistem ini hanya alat bantu prediksi awal dan BUKAN diagnosis medis profesional.
     </p>
 </div>
 """, unsafe_allow_html=True)
