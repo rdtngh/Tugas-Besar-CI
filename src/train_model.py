@@ -13,8 +13,8 @@ def main():
 
     X_train, X_test, y_train, y_test, scaler = load_and_preprocess_data()
 
-    # Model baseline sementara menggunakan RandomForestClassifier.
-    # Nantinya dapat diganti dengan model Neuro-Fuzzy / ANFIS.
+    # Model baseline legacy menggunakan RandomForestClassifier.
+    # Proyek utama berfokus pada Neuro-Fuzzy / ANFIS, bukan pada model ini.
     model = RandomForestClassifier(
         n_estimators=100,
         random_state=42,

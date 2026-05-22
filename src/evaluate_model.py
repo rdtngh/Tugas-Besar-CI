@@ -1,8 +1,7 @@
 """
-Script evaluasi Fuzzy Inference System terhadap dataset.
+Legacy baseline evaluation untuk Fuzzy Inference System terhadap dataset.
 
-Script ini melakukan evaluasi model prediksi stres menggunakan Fuzzy Inference System
-dan menghitung metrik performa seperti accuracy, precision, recall, dan F1-score.
+Script ini mengevaluasi model FIS lama sebagai pembanding untuk model Neuro-Fuzzy / ANFIS.
 """
 
 import pandas as pd
@@ -51,7 +50,7 @@ def evaluate_fuzzy_model():
     Evaluasi Fuzzy Inference System terhadap seluruh dataset.
     """
     print("=" * 70)
-    print("EVALUASI FUZZY INFERENCE SYSTEM - Prediksi Tingkat Stres Mahasiswa")
+    print("EVALUASI LEGACY FIS BASELINE - Prediksi Tingkat Stres Mahasiswa")
     print("=" * 70)
     
     # Load dataset
@@ -168,7 +167,7 @@ def evaluate_fuzzy_model():
     print("KESIMPULAN")
     print("=" * 70)
     print("""
-    Sistem Fuzzy Inference System telah dievaluasi terhadap dataset.
+    Legacy FIS baseline telah dievaluasi terhadap dataset.
     
     Interpretasi Hasil:
     - Accuracy: Persentase prediksi yang benar
@@ -176,10 +175,11 @@ def evaluate_fuzzy_model():
     - Recall: Kemampuan menemukan semua instans kelas sebenarnya
     - F1-Score: Rata-rata harmonis precision dan recall
     
-    Pengembangan Selanjutnya (ANFIS):
-    - Parameter membership function dapat dioptimalkan menggunakan algoritma learning
-    - Rule base dapat disesuaikan berdasarkan analisis error
-    - Fitur engineering dapat meningkatkan performa model
+    Catatan penting:
+    - Hasil ini adalah baseline FIS, bukan model utama.
+    - Fokus utama proyek adalah Neuro-Fuzzy / ANFIS.
+    - Jalankan 'python -m src.evaluate_anfis_model' untuk evaluasi ANFIS.
+    - FIS hanya digunakan jika ANFIS belum tersedia atau sebagai perbandingan.
     """)
     
     print("=" * 70 + "\n")
