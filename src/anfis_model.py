@@ -3,8 +3,11 @@ Simplified Neuro-Fuzzy / ANFIS model untuk prediksi stress mahasiswa.
 
 Model ini menggunakan membership function Gaussian adaptif sebagai lapisan fuzzy,
 rule layer sederhana, normalisasi firing strength, dan consequent layer linear.
-Meskipun bukan implementasi ANFIS penuh, model ini valid secara konsep sebagai
-Neuro-Fuzzy dengan parameter membership yang dapat dilatih dari data.
+Meskipun bukan implementasi ANFIS penuh standar, model ini valid secara konsep
+sebagai Neuro-Fuzzy untuk kebutuhan akademik.
+
+Konsep yang digunakan mencakup membership function adaptif, rule strength, dan
+pembelajaran dari dataset untuk menghasilkan prediksi kelas.
 """
 
 import numpy as np

@@ -1,3 +1,5 @@
+# LEGACY BASELINE: Script ini adalah baseline RandomForest legacy dan tidak dipanggil oleh app.py.
+# Model ini disimpan sebagai perbandingan, bukan sebagai model utama aplikasi.
 import joblib
 from pathlib import Path
 from sklearn.ensemble import RandomForestClassifier

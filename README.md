@@ -7,6 +7,8 @@ Sistem ini adalah aplikasi interaktif berbasis web untuk memprediksi tingkat str
 - Menggunakan membership Gaussian adaptif yang bisa dipelajari dari data.
 - Menyediakan confidence score dan class score untuk hasil prediksi.
 - Menjaga FIS lama sebagai pembanding dan fallback ketika ANFIS belum tersedia.
+- ANFIS adalah pendekatan hibrida ANN + Fuzzy sederhana untuk kebutuhan akademik.
+- Streamlit digunakan sebagai antarmuka interaktif bagi pengguna.
 
 ## Dataset
 - **File:** `data/StressLevelDataset.csv`
@@ -24,15 +26,17 @@ Sistem ini adalah aplikasi interaktif berbasis web untuk memprediksi tingkat str
 - `social_support` (0-5)
 - `future_career_concerns` (0-5)
 
-## Alur Metode Neuro-Fuzzy / ANFIS
+## Alur Metode Simplified Neuro-Fuzzy / ANFIS
 1. Input data mahasiswa dimasukkan ke sistem.
 2. Data dinormalisasi menggunakan `MinMaxScaler`.
 3. Setiap fitur difuzzifikasi dengan membership Gaussian adaptif.
 4. Rule layer menghitung firing strength untuk setiap term fuzzy.
-5. Firing strength menormalisasi kontribusi setiap rule.
+5. Firing strength dinormalisasi untuk kontribusi setiap term.
 6. Consequent layer linear menghasilkan skor kelas numerik.
 7. Softmax menghasilkan probabilitas kelas akhir.
 8. Output akhir adalah label `Rendah`, `Sedang`, atau `Tinggi`, beserta confidence score.
+
+Sistem menggunakan pendekatan simplified Neuro-Fuzzy/ANFIS sebagai model utama dan Fuzzy Inference System sebagai fallback.
 
 ## Perbedaan FIS vs Neuro-Fuzzy
 - **FIS biasa:**
@@ -40,6 +44,7 @@ Sistem ini adalah aplikasi interaktif berbasis web untuk memprediksi tingkat str
   - Rule base manual dengan inferensi Mamdani.
   - Output ditentukan dari skor fuzzy maksimum.
 - **Neuro-Fuzzy / ANFIS:**
+  - Implementasi simplified ANFIS untuk kebutuhan akademik.
   - Membership Gaussian adaptif yang dilatih dari data.
   - Learning dengan gradient descent sederhana.
   - Consequent layer linear dan softmax untuk probabilitas.
@@ -55,8 +60,8 @@ Tugas-Besar-CI/
 │  └─ StressLevelDataset.csv
 ├─ models/
 │  ├─ fuzzy_config.json
-│  ├─ stress_model.pkl
-│  ├─ scaler.pkl
+│  ├─ stress_model.pkl   # Legacy baseline RandomForest
+│  ├─ scaler.pkl         # Legacy baseline scaler
 │  ├─ anfis_model.pkl
 │  └─ anfis_scaler.pkl
 ├─ notebooks/
@@ -127,7 +132,9 @@ FIS lama hanya berfungsi sebagai baseline perbandingan dan fallback ketika model
 ## Catatan Penting
 - **Bukan diagnosis medis:** Sistem ini hanya untuk prediksi awal.
 - **Neuro-Fuzzy:** Model ini adalah simplified ANFIS untuk kebutuhan akademik.
-- **FIS lama tetap ada:** Digunakan sebagai baseline dan fallback.
+- **FIS lama tetap ada:** Digunakan sebagai baseline dan fallback berbasis rule IF-THEN.
+- **Dataset:** Digunakan untuk training dan evaluasi model.
+- **Streamlit:** Menyediakan antarmuka interaktif untuk pengguna.
 - **Output:** prediksi `Rendah`, `Sedang`, `Tinggi` + confidence score.
 
 ## Anggota Kelompok

@@ -1,13 +1,15 @@
 """
-Script training dan setup Fuzzy Inference System.
+Legacy baseline/setup Fuzzy Inference System.
 
 Script ini melakukan evaluasi Fuzzy Inference System terhadap dataset
-dan menyimpan konfigurasi untuk digunakan di aplikasi.
+ dan menyimpan konfigurasi untuk digunakan di aplikasi.
 
 Catatan: Sistem ini menggunakan Fuzzy Inference System berbasis aturan
 sebagai fondasi untuk pengembangan Neuro-Fuzzy/ANFIS. Pada tahap ini,
 tidak ada proses learning parameter secara otomatis, namun dapat
 dikembangkan ke ANFIS yang memungkinkan pembelajaran dari data.
+File ini tidak dipanggil langsung oleh app.py, melainkan hanya untuk dokumentasi
+atau baseline perbandingan.
 """
 
 import json

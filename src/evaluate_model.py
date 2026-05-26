@@ -2,6 +2,7 @@
 Legacy baseline evaluation untuk Fuzzy Inference System terhadap dataset.
 
 Script ini mengevaluasi model FIS lama sebagai pembanding untuk model Neuro-Fuzzy / ANFIS.
+File ini tidak dipanggil langsung oleh app.py, melainkan hanya untuk analisis dan perbandingan.
 """
 
 import pandas as pd

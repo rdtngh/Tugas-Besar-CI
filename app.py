@@ -1,9 +1,6 @@
 ﻿import streamlit as st
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 from src.predict import predict_stress
-from src.recommendations import get_recommendation
 
 st.set_page_config(
     page_title="Prediksi Tingkat Stres",
@@ -155,7 +152,7 @@ st.markdown(custom_css, unsafe_allow_html=True)
 with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/3233/3233483.png", width=60) # Adding a cute subtle icon
     st.markdown("### 🌿 Tentang Sistem")
-    st.write("Sistem prediksi awal tingkat stres mahasiswa dengan sentuhan visual yang menenangkan, ditenagai oleh Neuro-Fuzzy / ANFIS.")
+    st.write("Sistem prediksi awal tingkat stres mahasiswa dengan sentuhan visual yang menenangkan, ditenagai oleh simplified Neuro-Fuzzy / ANFIS.")
     st.markdown("<hr>", unsafe_allow_html=True)
     st.subheader("Detail Proyek")
     st.markdown(
@@ -164,39 +161,11 @@ with st.sidebar:
         - **Mata Kuliah:** Kecerdasan Komputasional
         - **Dataset:** StressLevelDataset.csv
         - **Target:** Rendah / Sedang / Tinggi
-        - **Engine:** Neuro-Fuzzy / ANFIS
+        - **Engine:** Simplified Neuro-Fuzzy / ANFIS (utama) + FIS fallback
         """
     )
     st.markdown("<hr>", unsafe_allow_html=True)
     st.info("✨ Aplikasi ini adalah alat bantu prediksi awal, bukan diagnosis klinis.")
-
-
-def get_factor_category(feature, value):
-    if feature == "anxiety_level":
-        if value <= 7: return "Rendah"
-        if value <= 14: return "Sedang"
-        return "Tinggi"
-    if feature == "sleep_quality":
-        if value <= 1: return "Buruk"
-        if value <= 3: return "Sedang"
-        return "Baik"
-    if feature == "study_load":
-        if value <= 1: return "Ringan"
-        if value <= 3: return "Sedang"
-        return "Berat"
-    if feature == "academic_performance":
-        if value <= 1: return "Rendah"
-        if value <= 3: return "Sedang"
-        return "Tinggi"
-    if feature == "social_support":
-        if value <= 1: return "Rendah"
-        if value <= 3: return "Sedang"
-        return "Tinggi"
-    if feature == "future_career_concerns":
-        if value <= 1: return "Rendah"
-        if value <= 3: return "Sedang"
-        return "Tinggi"
-    return "Sedang"
 
 
 def get_result_interpretation(label):
@@ -343,10 +312,13 @@ with col_result:
             "social_support": social_support,
             "future_career_concerns": future_career_concerns,
         }
-        label, score, class_scores = predict_stress(input_data)
-        summary_text = get_recommendation(label)
+        label, score, class_scores, model_used = predict_stress(input_data)
         interpretation = get_result_interpretation(label)
         primary_color, pastel_color, text_color = get_result_color(label)
+        
+        # Tentukan styling berdasarkan model yang digunakan
+        model_badge_color = "#8ab594" if model_used == "Simplified ANFIS" else "#bd8d62"
+        model_badge_bg = "rgba(138, 181, 148, 0.15)" if model_used == "Simplified ANFIS" else "rgba(223, 180, 139, 0.15)"
 
         # Result Card
         st.markdown(
@@ -356,7 +328,8 @@ with col_result:
                 <div style='display: flex; gap: 24px; flex-wrap: wrap; align-items: center;'>
                     <div style='flex: 1 1 250px;'>
                         <div style='font-size: 2.8rem; font-weight: 800; color: {text_color}; margin-bottom: 8px; line-height: 1.1;'>{label}</div>
-                        <div style='font-size: 1.05rem; color: {text_color}; line-height: 1.6; margin-bottom: 16px; opacity: 0.9;'>{interpretation}</div>
+                        <div style='font-size: 0.9rem; background: {model_badge_bg}; color: {model_badge_color}; padding: 8px 12px; border-radius: 12px; display: inline-block; margin-bottom: 12px; font-weight: 700;'>🤖 {model_used}</div>
+                        <div style='font-size: 1.05rem; color: {text_color}; line-height: 1.6; margin-bottom: 16px; opacity: 0.9; margin-top: 12px;'>{interpretation}</div>
                     </div>
                     <div style='flex: 0 0 160px; background: rgba(255,255,255,0.6); padding: 20px; border-radius: 24px; text-align: center; box-shadow: inset 0 2px 10px rgba(255,255,255,0.5);'>
                         <div style='font-size: 2.2rem; font-weight: 800; color: {primary_color}; margin-bottom: 4px;'>{score:.0%}</div>
@@ -396,7 +369,8 @@ with col_result:
 
         # Dominant Factors UI
         st.write("")
-        st.markdown("<div style='font-size: 1.1rem; font-weight: 800; color: #3b4a3f; margin-bottom: 16px;'>🔍 Apa yang Paling Memengaruhimu?</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size: 1.1rem; font-weight: 800; color: #3b4a3f; margin-bottom: 16px;'>🔍 Interpretasi Tambahan: Faktor-Faktor Input</div>", unsafe_allow_html=True)
+        st.markdown("<div style='font-size: 0.95rem; color: #6a7d6f; margin-bottom: 20px;'>Visualisasi di bawah menunjukkan nilai input yang Anda masukkan dan interpretasinya. <strong>Bukan ini yang menentukan hasil prediksi</strong>&mdash;hasil prediksi ditentukan sepenuhnya oleh model " + ("Simplified ANFIS" if model_used == "Simplified ANFIS" else "Fuzzy Inference System") + ".</div>", unsafe_allow_html=True)
         st.markdown("<div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 24px;'>", unsafe_allow_html=True)
         
         dominant = get_dominant_factors(input_data)
