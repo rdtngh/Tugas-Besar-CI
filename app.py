@@ -1,6 +1,12 @@
 ﻿import streamlit as st
 import matplotlib.pyplot as plt
 from src.predict import predict_stress
+from src.analysis import (
+    classify_input_level,
+    get_factor_contribution,
+    generate_analysis_text,
+    generate_dynamic_recommendations,
+)
 
 st.set_page_config(
     page_title="Prediksi Tingkat Stres Mahasiswa",
@@ -242,34 +248,6 @@ def get_result_color(label):
     if label == "Sedang":
         return "#F97316", "rgba(254, 243, 230, 0.6)", "#EA580C"  # Orange
     return "#DC2626", "rgba(254, 226, 226, 0.6)", "#991B1B"  # Red
-
-
-def get_dominant_factors(input_data):
-    """Analyze and return dominant stress factors."""
-    metrics = [
-        ("Kecemasan", input_data["anxiety_level"], input_data["anxiety_level"] / 20),
-        ("Beban Belajar", input_data["study_load"], input_data["study_load"] / 5),
-        ("Performa Akademik", input_data["academic_performance"], (5 - input_data["academic_performance"]) / 5),
-        ("Kualitas Tidur", input_data["sleep_quality"], (5 - input_data["sleep_quality"]) / 5),
-        ("Dukungan Sosial", input_data["social_support"], (5 - input_data["social_support"]) / 5),
-        ("Kekhawatiran Karier", input_data["future_career_concerns"], input_data["future_career_concerns"] / 5),
-    ]
-    ordered = sorted(metrics, key=lambda x: x[2], reverse=True)
-    dominant = []
-    for title, value, _ in ordered[:3]:
-        if title == "Kecemasan":
-            dominant.append((title, value, "Tingkat kecemasan mempengaruhi kesejahteraan mental Anda secara signifikan."))
-        elif title == "Beban Belajar":
-            dominant.append((title, value, "Beban akademik yang tinggi berkontribusi pada stres yang Anda rasakan."))
-        elif title == "Performa Akademik":
-            dominant.append((title, value, "Kepuasan terhadap performa akademik memengaruhi tingkat stres."))
-        elif title == "Kualitas Tidur":
-            dominant.append((title, value, "Kualitas tidur yang kurang optimal mempengaruhi pemulihan mental dan fisik."))
-        elif title == "Dukungan Sosial":
-            dominant.append((title, value, "Tingkat dukungan sosial mempengaruhi resiliensi terhadap stres."))
-        else:
-            dominant.append((title, value, "Kekhawatiran tentang karier masa depan berkontribusi pada stres."))
-    return dominant
 
 
 def render_info_card(title, value, description, bg_color, text_color):
@@ -520,58 +498,53 @@ with col_result:
             ]
         }
         
-        st.dataframe(input_table, use_container_width=True, hide_index=True)
-
-        # Dominant Factors
         st.markdown("")
-        st.markdown("**Faktor Dominan**")
-        st.markdown("Analisis di bawah menunjukkan faktor-faktor yang paling berkontribusi terhadap hasil prediksi:")
-        
-        dominant = get_dominant_factors(input_data)
-        for factor_name, factor_value, factor_desc in dominant:
-            st.markdown(
+        st.markdown("### Analisis Sistem")
+
+        analysis_text = generate_analysis_text(input_data, label, class_scores)
+        st.markdown(
+            f"""
+            <div style='background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 22px; margin-bottom: 18px;'>
+                <div style='font-size: 0.95rem; color: #263238; line-height: 1.7;'>{analysis_text}</div>
+                <div style='font-size: 0.82rem; color: #6B7280; margin-top: 14px;'>Analisis ini dibuat berdasarkan nilai input pengguna dan hasil prediksi model. Analisis ini bukan diagnosis medis.</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        contributions = get_factor_contribution(input_data)
+        recommendations = generate_dynamic_recommendations(input_data, label)
+
+        factor_cards = []
+        for factor in contributions:
+            factor_cards.append(
                 f"""
-                <div style='background: #FFFFFF; border-left: 4px solid #2F5D50; border: 1px solid #E5E7EB; border-radius: 8px; padding: 14px; margin-bottom: 12px;'>
-                    <div style='font-weight: 700; color: #263238; margin-bottom: 4px;'>{factor_name}</div>
-                    <div style='font-size: 0.9rem; color: #6B7280;'>{factor_desc}</div>
+                <div style='background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 10px; padding: 16px; margin-bottom: 12px;'>
+                    <div style='font-size: 0.95rem; font-weight: 700; color: #263238; margin-bottom: 6px;'>{factor['factor']} — {factor['level'].capitalize()}</div>
+                    <div style='font-size: 0.9rem; color: #6B7280; line-height: 1.6;'>{factor['reason']}</div>
                 </div>
-                """,
-                unsafe_allow_html=True,
+                """
             )
 
-        # Recommendations
-        st.markdown("")
-        st.markdown("**Rekomendasi**")
-        
-        if label == "Rendah":
-            recommendations = [
-                ("Akademik", "Pertahankan disiplin belajar dan jadwal rutin yang efektif."),
-                ("Gaya Hidup", "Jaga kualitas tidur dan aktivitas fisik yang teratur."),
-                ("Sosial", "Terus perkuat hubungan sosial dan berbagi pengalaman dengan teman."),
-            ]
-        elif label == "Sedang":
-            recommendations = [
-                ("Akademik", "Coba buat prioritas tugas dan kelola workload secara bertahap."),
-                ("Gaya Hidup", "Pastikan tidur cukup dan ambil break setiap 2-3 jam belajar."),
-                ("Sosial", "Luangkan waktu untuk relaksasi dan berkumpul dengan orang terkasih."),
-            ]
-        else:
-            recommendations = [
-                ("Akademik", "Jangan ragu untuk minta bantuan dosen atau teman jika kesulitan."),
-                ("Gaya Hidup", "Prioritaskan tidur berkualitas dan hindari kafein berlebihan."),
-                ("Sosial", "Hubungi konselor kampus atau layanan mental health terdekat."),
-            ]
-        
-        for category, recommendation in recommendations:
-            st.markdown(
-                f"""
-                <div style='background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 8px; padding: 14px; margin-bottom: 12px;'>
-                    <div style='font-weight: 700; color: #2F5D50; margin-bottom: 4px;'>{category}</div>
-                    <div style='font-size: 0.9rem; color: #6B7280;'>{recommendation}</div>
-                </div>
-                """,
-                unsafe_allow_html=True,
+        recommendation_items = []
+        for recommendation in recommendations:
+            recommendation_items.append(
+                f"<li style='margin-bottom: 10px; line-height: 1.6; color: #334155;'>{recommendation}</li>"
             )
+
+        st.markdown("**Faktor yang Mempengaruhi Prediksi**")
+        for card in factor_cards:
+            st.markdown(card, unsafe_allow_html=True)
+
+        st.markdown("**Rekomendasi Personal**")
+        st.markdown(
+            f"""
+            <div style='background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 10px; padding: 16px; margin-bottom: 18px;'>
+                <ul style='margin: 0; padding-left: 20px;'>{''.join(recommendation_items)}</ul>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
     else:
         # Empty State
