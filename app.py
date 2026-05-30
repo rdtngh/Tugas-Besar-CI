@@ -12,7 +12,6 @@ st.set_page_config(
     page_title="Prediksi Tingkat Stres Mahasiswa",
     page_icon="📊",
     layout="wide",
-    initial_sidebar_state="expanded",
 )
 
 # --- ACADEMIC CLEAN DESIGN WITH SOFT COLOR PALETTE ---
@@ -35,15 +34,6 @@ custom_css = """
     .block-container {
         padding-top: 1.5rem !important;
         max-width: 1400px !important;
-    }
-
-    /* Sidebar Styling - Academic Light */
-    [data-testid="stSidebar"] {
-        background: #F7FAF8 !important;
-        border-right: 1px solid #E5E7EB !important;
-    }
-    [data-testid="stSidebar"] * {
-        color: #263238 !important;
     }
 
     /* Primary Button - Academic Green */
@@ -172,64 +162,6 @@ custom_css = """
 """
 
 st.markdown(custom_css, unsafe_allow_html=True)
-
-# --- SIDEBAR CONFIGURATION ---
-with st.sidebar:
-    st.markdown("### Tentang Sistem")
-    st.markdown(
-        """
-        Sistem prediksi awal tingkat stres mahasiswa menggunakan pendekatan **simplified Neuro-Fuzzy/ANFIS** sebagai model utama dan **Fuzzy Inference System (FIS)** sebagai fallback.
-        """
-    )
-    
-    st.markdown("---")
-    
-    st.markdown("#### Informasi Project")
-    st.markdown(
-        """
-        - **Mata Kuliah:** Kecerdasan Komputasional
-        - **Semester:** 6
-        - **Dataset:** StressLevelDataset.csv (Kaggle)
-        - **Kelas Output:** Rendah, Sedang, Tinggi
-        """
-    )
-    
-    st.markdown("---")
-    
-    st.markdown("#### Dataset")
-    st.markdown("**6 fitur input:**")
-    st.markdown(
-        """
-        - Anxiety Level (0-20)
-        - Sleep Quality (0-5)
-        - Study Load (0-5)
-        - Academic Performance (0-5)
-        - Social Support (0-5)
-        - Future Career Concerns (0-5)
-        """
-    )
-    
-    st.markdown("---")
-    
-    st.markdown("#### Metode")
-    st.markdown(
-        """
-        **Simplified ANFIS:**
-        - Membership Gaussian adaptif
-        - Rule layer dengan firing strength
-        - Consequent layer linear + Softmax
-        - Training dengan gradient descent
-        
-        **FIS Fallback:**
-        - Membership triangular/trapezoidal statis
-        - Rule base berbasis IF-THEN
-        """
-    )
-    
-    st.markdown("---")
-    
-    st.warning("⚠️ Sistem ini adalah alat bantu prediksi awal, bukan diagnosis medis. Untuk konsultasi profesional, hubungi layanan kesehatan mental kampus.")
-
 
 
 def get_result_interpretation(label):
