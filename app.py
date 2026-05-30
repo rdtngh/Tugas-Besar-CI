@@ -569,31 +569,25 @@ st.markdown("---")
 st.markdown("### Cara Kerja Sistem")
 st.markdown(
     """
-    Sistem prediksi tingkat stres bekerja melalui beberapa tahap:
-    
-    1. **Dataset Kaggle** → Data stress level dari 1000+ mahasiswa
-    2. **Preprocessing** → Normalisasi dengan MinMaxScaler untuk standardisasi nilai
-    3. **Simplified ANFIS** → 
-       - Fuzzifikasi: Konversi nilai numerik ke membership Gaussian adaptif
-       - Rule Layer: Kalkulasi firing strength berdasarkan aturan fuzzy
-       - Consequent Layer: Kombinasi linear dari output rules
-       - Softmax: Konversi output linear ke probabilitas kelas
-    4. **FIS Fallback** → Jika ANFIS tidak tersedia, gunakan Fuzzy Inference System berbasis rule statis
-    5. **Prediksi** → Output label (Rendah/Sedang/Tinggi) + confidence score
-    6. **Rekomendasi** → Saran personal berdasarkan faktor dominan
-    """
+    <div style='background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; margin-bottom: 18px;'>
+        <p style='font-size: 0.95rem; color: #263238; line-height: 1.7; margin: 0;'>
+        Dataset diproses melalui tahap preprocessing, kemudian digunakan oleh model simplified ANFIS untuk menghasilkan prediksi tingkat stres. Jika model utama tidak tersedia, sistem menggunakan FIS berbasis aturan sebagai fallback. Hasil prediksi ditampilkan bersama confidence score, faktor yang memengaruhi, dan rekomendasi personal.
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True,
 )
 
 st.markdown("### Catatan Akademik")
 st.markdown(
     """
-    - **Tujuan:** Sistem ini dirancang sebagai alat bantu prediksi awal tingkat stres mahasiswa untuk keperluan akademis (tugas besar mata kuliah Kecerdasan Komputasional).
-    - **Bukan Diagnosis Medis:** Hasil prediksi bukan diagnosis klinis atau profesional. Untuk konsultasi kesehatan mental yang serius, silakan hubungi layanan kesehatan mental kampus atau profesional kesehatan yang bersertifikat.
-    - **Model Utama:** Simplified ANFIS (Adaptive Neuro-Fuzzy Inference System) yang menggabungkan logika fuzzy dengan neural network untuk pembelajaran adaptif.
-    - **Fallback Model:** FIS (Fuzzy Inference System) berbasis rule IF-THEN sebagai alternatif jika ANFIS belum tersedia.
-    - **Dataset:** Data berasal dari Kaggle (Student Stress Factors Dataset) dan bersifat publik untuk keperluan penelitian akademis.
-    - **Transparansi:** Confidence score menunjukkan tingkat keyakinan model terhadap prediksi yang diberikan.
-    """
+    <div style='background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; margin-bottom: 18px;'>
+        <p style='font-size: 0.95rem; color: #263238; line-height: 1.7; margin: 0;'>
+        Sistem ini dibuat untuk keperluan tugas besar Kecerdasan Komputasional. Hasil prediksi bersifat informasi awal dan bukan diagnosis medis.
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True,
 )
 
 st.markdown("---")
